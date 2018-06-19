@@ -16,7 +16,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Media } from '@ionic-native/media';
 import { File } from '@ionic-native/file';
-import { MediaCapture } from "@ionic-native/media-capture";
+import { HTTP } from "@ionic-native/http";
 
 @NgModule({
   declarations: [
@@ -52,6 +52,7 @@ import { MediaCapture } from "@ionic-native/media-capture";
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     Media,
     File,
+    HTTP
   ]
 })
 export class AppModule {}
