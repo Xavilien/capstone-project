@@ -52,7 +52,6 @@ import { MediaCapture } from "@ionic-native/media-capture";
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     Media,
     File,
-    MediaCapture
   ]
 })
 export class AppModule {}

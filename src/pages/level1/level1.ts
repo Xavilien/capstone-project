@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, AlertController, Platform } from 'ionic-angular';
 import { Media, MediaObject } from '@ionic-native/media';
 import { File } from '@ionic-native/file';
-import { MediaCapture } from "@ionic-native/media-capture";
+import { HTTP } from '@ionic-native/http';
 
 @Component({
   selector: 'page-level1',
@@ -22,12 +22,8 @@ export class Level1Page {
               public alertCtrl: AlertController,
               private media: Media,
               private file: File,
-              public platform: Platform,
-              private  mediaCapture: MediaCapture) {
-  }
-
-  ionViewWillEnter() {
-    console.log(this.mediaCapture.supportedAudioModes)
+              private http: HTTP,
+              public platform: Platform,) {
   }
 
   showAlert(message) {
@@ -60,6 +56,16 @@ export class Level1Page {
     this.audio.stopRecord();
     this.audioList.push(this.audio);
     this.recording = false;
+  }
+
+  sendToASR(audio) {
+    let audioContent;
+    if (this.platform.is('ios')) {
+      audioContent = this.file.readAsDataURL(this.file.documentsDirectory.replace(/file:\/\//g, ''), this.fileName);
+    } else if (this.platform.is('android')) {
+      audioContent = this.file.readAsDataURL(this.file.externalDataDirectory.replace(/file:\/\//g, ''), this.fileName);
+    }
+    audioContent.replace('data:audio/ogg; codecs=opus;base64,','');
   }
 
   playAudio(audio) {
