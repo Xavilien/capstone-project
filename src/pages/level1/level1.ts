@@ -2,12 +2,14 @@ import { Component } from '@angular/core';
 import { NavController, AlertController, Platform } from 'ionic-angular';
 import { Media, MediaObject } from '@ionic-native/media';
 import { File } from '@ionic-native/file';
-import { HTTP } from '@ionic-native/http';
+import { SendASRService } from "../../app/http.service";
 
 @Component({
   selector: 'page-level1',
-  templateUrl: 'level1.html'
+  templateUrl: 'level1.html',
+  providers: [ SendASRService ]
 })
+
 export class Level1Page {
   // this tells the tabs component which Pages
   // should be each tab's root Page
@@ -17,13 +19,14 @@ export class Level1Page {
   audio: MediaObject;
   audioList: any[] = [];
   myColour: string;
+  text: any;
 
   constructor(public navCtrl: NavController,
               public alertCtrl: AlertController,
               private media: Media,
               private file: File,
-              private http: HTTP,
-              public platform: Platform,) {
+              public platform: Platform,
+              public sendASRService: SendASRService,) {
   }
 
   showAlert(message) {
@@ -58,14 +61,22 @@ export class Level1Page {
     this.recording = false;
   }
 
-  sendToASR(audio) {
+  sendToASR() {
     let audioContent;
+
     if (this.platform.is('ios')) {
       audioContent = this.file.readAsDataURL(this.file.documentsDirectory.replace(/file:\/\//g, ''), this.fileName);
     } else if (this.platform.is('android')) {
       audioContent = this.file.readAsDataURL(this.file.externalDataDirectory.replace(/file:\/\//g, ''), this.fileName);
     }
-    audioContent.replace('data:audio/ogg; codecs=opus;base64,','');
+
+    console.log("Sending audio...");
+
+    this.sendASRService.sendASR(audioContent)
+      .subscribe(data => this.text = data);
+
+    console.log("Sent audio");
+    //console.log(this.text);
   }
 
   playAudio(audio) {
@@ -79,6 +90,7 @@ export class Level1Page {
       this.stopRecord();
       console.log('Stopped recording');
       this.playAudio(this.audioList[(this.audioList.length - 1)]);
+      this.sendToASR();
     }
     else if (this.startRecord()) {
       this.myColour = 'danger';
