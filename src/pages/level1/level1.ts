@@ -26,15 +26,7 @@ export class Level1Page {
               private  mediaCapture: MediaCapture) {
   }
 
-  getAudioList() {
-    if(localStorage.getItem("audiolist")) {
-      this.audioList = JSON.parse(localStorage.getItem("audiolist"));
-      console.log(this.audioList);
-    }
-  }
-
   ionViewWillEnter() {
-    this.getAudioList();
     console.log(this.mediaCapture.supportedAudioModes)
   }
 
@@ -66,23 +58,13 @@ export class Level1Page {
 
   stopRecord() {
     this.audio.stopRecord();
-    let data = { filename: this.fileName };
-    this.audioList.push(data);
-    localStorage.setItem("audiolist", JSON.stringify(this.audioList));
+    this.audioList.push(this.audio);
     this.recording = false;
-    this.getAudioList();
   }
 
-  playAudio(file) {
-    if (this.platform.is('ios')) {
-      this.filePath = this.file.documentsDirectory.replace(/file:\/\//g, '') + file;
-      this.audio = this.media.create(this.filePath);
-    } else if (this.platform.is('android')) {
-      this.filePath = this.file.externalDataDirectory.replace(/file:\/\//g, '') + file;
-      this.audio = this.media.create(this.filePath);
-    }
-    this.audio.play();
-    this.audio.setVolume(0.8);
+  playAudio(audio) {
+    audio.play();
+    audio.setVolume(0.8);
   }
 
   record() {
@@ -90,11 +72,11 @@ export class Level1Page {
       this.myColour = 'primary';
       this.stopRecord();
       console.log('Stopped recording');
-      this.playAudio(this.audioList[(this.audioList.length)-1].filename);
+      this.playAudio(this.audioList[(this.audioList.length - 1)]);
     }
     else if (this.startRecord()) {
-        this.myColour = 'danger';
-        console.log('Starting to record');
+      this.myColour = 'danger';
+      console.log('Starting to record');
     }
     else {
       this.showAlert('Failed to record audio')
