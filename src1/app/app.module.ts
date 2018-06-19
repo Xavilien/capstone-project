@@ -14,9 +14,9 @@ import { ResultsPage } from '../pages/results/results';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { Media } from '@ionic-native/media';
-import { File } from '@ionic-native/file';
-import { MediaCapture } from "@ionic-native/media-capture";
+import { NativeAudio } from "@ionic-native/native-audio";
+import { Media } from "@ionic-native/media";
+
 
 @NgModule({
   declarations: [
@@ -49,10 +49,9 @@ import { MediaCapture } from "@ionic-native/media-capture";
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    NativeAudio,
     Media,
-    File,
-    MediaCapture
+    {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
 export class AppModule {}
