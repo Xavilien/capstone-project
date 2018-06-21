@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, AlertController, Platform } from 'ionic-angular';
 import { Media, MediaObject } from '@ionic-native/media';
 import { File } from '@ionic-native/file';
-import { SendASRService } from "../../app/http.service";
+import { SendASRService} from "../../app/asr/asr.service";
 
 @Component({
   selector: 'page-level1',
@@ -27,6 +27,15 @@ export class Level1Page {
               private file: File,
               public platform: Platform,
               public sendASRService: SendASRService,) {
+  }
+
+  ionViewWillEnter() {
+    this.sendASRService.sendASR(null).then(data => {
+      this.text = data;
+      console.log(data);
+    }, err => {
+      console.log(JSON.stringify(err));
+    });
   }
 
   showAlert(message) {
@@ -59,23 +68,50 @@ export class Level1Page {
     this.audio.stopRecord();
     this.audioList.push(this.audio);
     this.recording = false;
+    //let data = { filename: this.fileName };
+    //this.audioList.push(data);
   }
 
   sendToASR() {
-    let audioContent;
+    let audioContent, filepath;
 
     if (this.platform.is('ios')) {
-      audioContent = this.file.readAsDataURL(this.file.documentsDirectory.replace(/file:\/\//g, ''), this.fileName);
+      filepath = this.file.documentsDirectory.replace(/file:\/\//g, '');
     } else if (this.platform.is('android')) {
-      audioContent = this.file.readAsDataURL(this.file.externalDataDirectory.replace(/file:\/\//g, ''), this.fileName);
+      filepath = 'file://' + this.file.externalDataDirectory.replace(/file:\/\//g, ''); // Must add 'file://' if not it will fail
     }
 
-    console.log("Sending audio...");
+    /*this.file.listDir(filepath, 'files').then(items =>{
+      for(let i in items){
+        console.log(items[i]);
+      }
+    }).catch(err => {
+        console.log(JSON.stringify(err));
+      });*/
 
-    this.sendASRService.sendASR(audioContent)
-      .subscribe(data => this.text = data);
+    this.file.readAsDataURL(filepath, this.fileName).then(result => {
+      //console.log(result);
+      audioContent = result;
 
-    console.log("Sent audio");
+      console.log("Sending audio...");
+
+      this.sendASRService.sendASR(audioContent).then(data => {
+        this.text = data;
+        console.log(data);
+      }, err => {
+        console.log(JSON.stringify(err));
+      });
+    }, err => {
+      console.log(JSON.stringify(err));
+    });
+
+    //console.log(filepath);
+    //console.log(filename);
+    //console.log(audioContent);
+
+
+
+    //console.log("Sent audio");
     //console.log(this.text);
   }
 
