@@ -88,18 +88,18 @@ export class Level1Page {
 
     this.file.readAsDataURL(filepath, this.fileName).then(result => {
       console.log("Read");
-      //console.log(result);
       audioContent = result;
+      console.log(audioContent);
       audioContent = audioContent.replace('data:application/ogg;base64,','');
-      //console.log(audioContent);
 
       let myObj = { Wavfile: this.fileName, EncodedSpeech: audioContent};
 
       console.log("Sending audio...");
 
       this.sendASRService.sendASR(myObj).then(data => {
-        this.text = data;
-        console.log(JSON.stringify(data));
+        //console.log(JSON.stringify(data));
+        this.text = JSON.parse(data.data)["decodeText"];
+        console.log(this.text);
       }, err => {
         console.log(JSON.stringify(err));
       });
