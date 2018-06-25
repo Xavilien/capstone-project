@@ -103,7 +103,7 @@ export class Level1Page {
         this.asrResponse = this.asrResponse.replace(/(\r\n\t|\n|\r\t)/gm,"");
         this.asrResponse = this.asrResponse.split(" ");
         this.undetected = this.text.slice();
-        this.undetected = this.undetected.filter(word => this.asrResponse.indexOf(word) > -1);
+        this.undetected = this.undetected.filter(word => this.asrResponse.indexOf(word) == -1);
         console.log(JSON.stringify(this.undetected));
       }, err => {
         console.log(JSON.stringify(err));
