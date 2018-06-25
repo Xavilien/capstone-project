@@ -30,12 +30,7 @@ export class Level1Page {
   }
 
   ionViewWillEnter() {
-    this.sendASRService.sendASR(null).then(data => {
-      this.text = data;
-      console.log(data);
-    }, err => {
-      console.log(JSON.stringify(err));
-    });
+
   }
 
   showAlert(message) {
@@ -73,12 +68,13 @@ export class Level1Page {
   }
 
   sendToASR() {
+    console.log("Test");
     let audioContent, filepath;
 
     if (this.platform.is('ios')) {
-      filepath = this.file.documentsDirectory.replace(/file:\/\//g, '');
+      filepath = this.file.documentsDirectory.replace(/file:\/\//g, '') + this.fileName;
     } else if (this.platform.is('android')) {
-      filepath = 'file://' + this.file.externalDataDirectory.replace(/file:\/\//g, ''); // Must add 'file://' if not it will fail
+      filepath = 'file://' + this.file.externalDataDirectory.replace(/file:\/\//g, '') + this.fileName; // Must add 'file://' if not it will fail
     }
 
     /*this.file.listDir(filepath, 'files').then(items =>{
@@ -88,14 +84,20 @@ export class Level1Page {
     }).catch(err => {
         console.log(JSON.stringify(err));
       });*/
+    console.log("Converting");
 
     this.file.readAsDataURL(filepath, this.fileName).then(result => {
+      console.log("Read");
       //console.log(result);
       audioContent = result;
+      audioContent = audioContent.replace('data:application/ogg;base64,','');
+      //console.log(audioContent);
+
+      let myObj = { Wavfile: this.fileName, EncodedSpeech: audioContent};
 
       console.log("Sending audio...");
 
-      this.sendASRService.sendASR(audioContent).then(data => {
+      this.sendASRService.sendASR(myObj).then(data => {
         this.text = data;
         console.log(data);
       }, err => {
@@ -105,14 +107,6 @@ export class Level1Page {
       console.log(JSON.stringify(err));
     });
 
-    //console.log(filepath);
-    //console.log(filename);
-    //console.log(audioContent);
-
-
-
-    //console.log("Sent audio");
-    //console.log(this.text);
   }
 
   playAudio(audio) {
