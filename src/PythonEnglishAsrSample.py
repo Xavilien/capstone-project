@@ -32,5 +32,5 @@ def SendTextToSpeechServer(url, Wavfile):
 # print "Wavfile: %s" %(Wavfile)
 
 
-url = 'http://192.168.51.206:8000/speech/english/imda'    # test IMDA ASR
+url = 'http://192.168.1.23:8000/speech/english/imda1'    # test IMDA ASR
 SendTextToSpeechServer(url, "test.ogg")
