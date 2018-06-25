@@ -1,5 +1,5 @@
 {
-  "name": "myApp",
+  "name": "myapp",
   "version": "0.0.1",
   "author": "Ionic Framework",
   "homepage": "http://ionicframework.com/",
@@ -46,11 +46,12 @@
     "npm-check-updates": "^2.14.2",
     "rxjs": "^5.5.10",
     "sw-toolbox": "3.6.0",
-    "zone.js": "0.8.26"
+    "zone.js": "0.8.26",
+    "cordova-android": "~7.0.0"
   },
   "devDependencies": {
     "@ionic/app-scripts": "3.1.9",
-    "typescript": "^2.9.2"
+    "typescript": "2.9.2"
   },
   "description": "An Ionic project",
   "cordova": {
@@ -68,7 +69,17 @@
       "cordova-plugin-advanced-http": {}
     },
     "platforms": [
-      "ios"
+      "ios",
+      "android"
     ]
+  },
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Xavilien/CapstoneProject.git"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Xavilien/CapstoneProject/issues"
   }
 }

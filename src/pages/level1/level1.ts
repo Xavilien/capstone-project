@@ -19,7 +19,9 @@ export class Level1Page {
   audio: MediaObject;
   audioList: any[] = [];
   myColour: string;
-  text: any;
+  asrResponse: any;
+  text: string[] = ["read", "this", "easy", "level", "one", "text"];
+  undetected: any;
 
   constructor(public navCtrl: NavController,
               public alertCtrl: AlertController,
@@ -30,7 +32,6 @@ export class Level1Page {
   }
 
   ionViewWillEnter() {
-
   }
 
   showAlert(message) {
@@ -98,8 +99,12 @@ export class Level1Page {
 
       this.sendASRService.sendASR(myObj).then(data => {
         //console.log(JSON.stringify(data));
-        this.text = JSON.parse(data.data)["decodeText"];
-        console.log(this.text);
+        this.asrResponse = JSON.parse(data.data)["decodeText"];
+        this.asrResponse = this.asrResponse.replace(/(\r\n\t|\n|\r\t)/gm,"");
+        this.asrResponse = this.asrResponse.split(" ");
+        this.undetected = this.text.slice();
+        this.undetected = this.undetected.filter(word => this.asrResponse.indexOf(word) > -1);
+        console.log(JSON.stringify(this.undetected));
       }, err => {
         console.log(JSON.stringify(err));
       });

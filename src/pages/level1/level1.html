@@ -16,7 +16,11 @@
           (click)="record()">
     <ion-icon name="mic"></ion-icon>
   </button>
-  <p style="color:#000000;">
-    Mispronounced words: {{ this.text }}
-  </p>
+  <ion-list>
+    <button ion-item item-icon-left *ngFor="let word of undetected">
+      <ion-icon name="mic"></ion-icon>
+      {{word}}
+    </button>
+  </ion-list>
 </ion-content>
+
