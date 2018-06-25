@@ -72,9 +72,9 @@ export class Level1Page {
     let audioContent, filepath;
 
     if (this.platform.is('ios')) {
-      filepath = this.file.documentsDirectory.replace(/file:\/\//g, '') + this.fileName;
+      filepath = this.file.documentsDirectory.replace(/file:\/\//g, '');
     } else if (this.platform.is('android')) {
-      filepath = 'file://' + this.file.externalDataDirectory.replace(/file:\/\//g, '') + this.fileName; // Must add 'file://' if not it will fail
+      filepath = 'file://' + this.file.externalDataDirectory.replace(/file:\/\//g, ''); // Must add 'file://' if not it will fail
     }
 
     /*this.file.listDir(filepath, 'files').then(items =>{
@@ -99,7 +99,7 @@ export class Level1Page {
 
       this.sendASRService.sendASR(myObj).then(data => {
         this.text = data;
-        console.log(data);
+        console.log(JSON.stringify(data));
       }, err => {
         console.log(JSON.stringify(err));
       });
