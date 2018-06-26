@@ -16,6 +16,10 @@
           (click)="record()">
     <ion-icon name="mic"></ion-icon>
   </button>
+  <ion-card>
+    <ion-card-header>Accuracy</ion-card-header>
+    <ion-card-content>{{score}}</ion-card-content>
+  </ion-card>
   <ion-list>
     <button ion-item item-icon-left *ngFor="let word of undetected" (click)="readText(word)">
       <ion-icon name="mic"></ion-icon>

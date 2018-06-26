@@ -23,6 +23,7 @@ export class Level1Page {
   asrResponse: any;
   text: string[] = ["read", "this", "easy", "level", "one", "text"];
   undetected: any;
+  score: any;
 
   constructor(public navCtrl: NavController,
               public alertCtrl: AlertController,
@@ -71,7 +72,6 @@ export class Level1Page {
   }
 
   sendToASR() {
-    this.text = "";
     console.log("Test");
     let audioContent, filepath;
 
@@ -107,7 +107,7 @@ export class Level1Page {
         this.asrResponse = this.asrResponse.split(" ");
         this.undetected = this.text.slice();
         this.undetected = this.undetected.filter(word => this.asrResponse.indexOf(word) == -1);
-        console.log(JSON.stringify(this.undetected));
+        this.score = ((this.asrResponse.length*100)/this.undetected.length)
       }, err => {
         console.log(JSON.stringify(err));
       });
@@ -122,9 +122,11 @@ export class Level1Page {
   }
 
   readText(text) {
-    this.tts.speak({text: text, rate: 1/10,})
-      .then(() => console.log(text))
-      .catch((err: any) => console.log(err));
+    this.platform.ready().then(() =>
+      this.tts.speak({text: text, rate: 1/10})
+        .then(() => console.log(text))
+        .catch((err: any) => console.log(err))
+    )
   }
 
   record() {
