@@ -105,9 +105,10 @@ export class Level1Page {
         this.asrResponse = JSON.parse(data.data)["decodeText"];
         this.asrResponse = this.asrResponse.replace(/(\r\n\t|\n|\r\t)/gm,"");
         this.asrResponse = this.asrResponse.split(" ");
+        console.log(JSON.stringify(this.asrResponse));
         this.undetected = this.text.slice();
         this.undetected = this.undetected.filter(word => this.asrResponse.indexOf(word) == -1);
-        this.score = ((this.asrResponse.length*100)/this.undetected.length)
+        this.score = (100-((this.undetected.length*100)/this.text.length));
       }, err => {
         console.log(JSON.stringify(err));
       });
