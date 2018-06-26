@@ -71,6 +71,7 @@ export class Level1Page {
   }
 
   sendToASR() {
+    this.text = "";
     console.log("Test");
     let audioContent, filepath;
 
