@@ -3,6 +3,7 @@ import { NavController, AlertController, Platform } from 'ionic-angular';
 import { Media, MediaObject } from '@ionic-native/media';
 import { File } from '@ionic-native/file';
 import { SendASRService} from "../../app/asr/asr.service";
+import {TextToSpeech} from "@ionic-native/text-to-speech";
 
 @Component({
   selector: 'page-level1',
@@ -28,7 +29,8 @@ export class Level1Page {
               private media: Media,
               private file: File,
               public platform: Platform,
-              public sendASRService: SendASRService,) {
+              public sendASRService: SendASRService,
+              private tts: TextToSpeech) {
   }
 
   ionViewWillEnter() {
@@ -111,12 +113,17 @@ export class Level1Page {
     }, err => {
       console.log(JSON.stringify(err));
     });
-
   }
 
   playAudio(audio) {
     audio.play();
     audio.setVolume(0.8);
+  }
+
+  readText(text) {
+    this.tts.speak({text: text, rate: 1/2,})
+      .then(() => console.log(text))
+      .catch((err: any) => console.log(err));
   }
 
   record() {

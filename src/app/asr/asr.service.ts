@@ -20,7 +20,7 @@ export class SendASRService {
 
   sendASR(myObj){
 
-    let url = 'http://192.168.0.103:8000/speech/english/imda1';
+    let url = 'http://192.168.43.122:8000/speech/english/imda1';
 
     this.http.setDataSerializer("json");
 

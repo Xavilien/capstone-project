@@ -18,6 +18,7 @@ import { Media } from '@ionic-native/media';
 import { File } from '@ionic-native/file';
 import { HttpClientModule } from '@angular/common/http';
 import { HTTP } from '@ionic-native/http';
+import {TextToSpeech} from "@ionic-native/text-to-speech";
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import { HTTP } from '@ionic-native/http';
     Media,
     File,
     HTTP,
+    TextToSpeech
   ]
 })
 export class AppModule {}

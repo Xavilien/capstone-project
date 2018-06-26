@@ -17,9 +17,9 @@
     <ion-icon name="mic"></ion-icon>
   </button>
   <ion-list>
-    <button ion-item item-icon-left *ngFor="let word of undetected">
+    <button ion-item item-icon-left *ngFor="let word of undetected" (click)="readText(word)">
       <ion-icon name="mic"></ion-icon>
-      {{word}}
+      {{"    "+word}}
     </button>
   </ion-list>
 </ion-content>
