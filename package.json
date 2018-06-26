@@ -49,6 +49,7 @@
     "npm-check-updates": "^2.14.2",
     "rxjs": "^5.5.10",
     "sw-toolbox": "3.6.0",
+    "text-to-speech": "^1.0.8",
     "zone.js": "0.8.26"
   },
   "devDependencies": {
