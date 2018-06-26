@@ -108,7 +108,7 @@ export class Level1Page {
         console.log(JSON.stringify(this.asrResponse));
         this.undetected = this.text.slice();
         this.undetected = this.undetected.filter(word => this.asrResponse.indexOf(word) == -1);
-        this.score = (100-((this.undetected.length*100)/this.text.length));
+        this.score = Math.floor(100-((this.undetected.length*100)/this.text.length));
       }, err => {
         console.log(JSON.stringify(err));
       });
