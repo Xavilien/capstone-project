@@ -121,7 +121,7 @@ export class Level1Page {
   }
 
   readText(text) {
-    this.tts.speak({text: text, rate: 1/2,})
+    this.tts.speak({text: text, rate: 1/10,})
       .then(() => console.log(text))
       .catch((err: any) => console.log(err));
   }
