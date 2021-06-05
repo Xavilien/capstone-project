@@ -7,9 +7,14 @@
 </ion-header>
 <ion-content padding id="page4">
   <div id="level1-markdown1" class="show-list-numbers-and-dots">
-    <p style="color:#000000;">
-      Read this easy level 1 text
+
+    <p>
+      <span id="words" #words *ngFor="let item of text">
+        {{item}}
+      </span>
     </p>
+
+
   </div>
   <button id="level1-button2" ion-button [color]="myColour"
           style="border-radius:10000px 10000px 10000px 10000px;"
@@ -21,7 +26,7 @@
     <ion-card-content>{{score}}</ion-card-content>
   </ion-card>
   <ion-list>
-    <button ion-item item-icon-left *ngFor="let word of undetected" (click)="readText(word)">
+    <button ion-item *ngFor="let word of undetected" (click)="readText(word)">
       <ion-icon name="mic"></ion-icon>
       {{"    "+word}}
     </button>

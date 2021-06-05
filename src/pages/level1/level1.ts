@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import { NavController, AlertController, Platform } from 'ionic-angular';
 import { Media, MediaObject } from '@ionic-native/media';
 import { File } from '@ionic-native/file';
 import { SendASRService} from "../../app/asr/asr.service";
-import {TextToSpeech} from "@ionic-native/text-to-speech";
+import { TextToSpeech } from "@ionic-native/text-to-speech";
+import { ElementRef } from '@angular/core';
 
 @Component({
   selector: 'page-level1',
@@ -12,6 +13,8 @@ import {TextToSpeech} from "@ionic-native/text-to-speech";
 })
 
 export class Level1Page {
+  @ViewChild("words") words:ElementRef;
+
   // this tells the tabs component which Pages
   // should be each tab's root Page
   recording: boolean = false;
@@ -37,6 +40,12 @@ export class Level1Page {
   ionViewWillEnter() {
   }
 
+  ngAfterViewInit() {
+    console.log(JSON.stringify(this.words));
+    console.log(JSON.stringify(this.words.nativeElement));
+  }
+
+
   showAlert(message) {
     let alert = this.alertCtrl.create({
       title: message,
@@ -47,7 +56,7 @@ export class Level1Page {
 
   startRecord() {
     if (this.platform.is('ios')) {
-      this.fileName = 'record'+new Date().getDate()+new Date().getMonth()+new Date().getFullYear()+new Date().getHours()+new Date().getMinutes()+new Date().getSeconds()+'.m4a';
+      this.fileName = 'record'+new Date().getDate()+new Date().getMonth()+new Date().getFullYear()+new Date().getHours()+new Date().getMinutes()+new Date().getSeconds()+'.wav';
       this.filePath = this.file.documentsDirectory.replace(/file:\/\//g, '') + this.fileName;
       this.audio = this.media.create(this.filePath);
     } else if (this.platform.is('android')) {
